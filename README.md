@@ -10,6 +10,74 @@
 ### Topologi Jaringan
 ![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/76bd6c9c-e7f8-42fa-be7e-a3e54cfdafb1)
 
+### SOAL 0
+> Planet Caladan sedang mengalami krisis karena kehabisan spice, klan atreides berencana untuk melakukan eksplorasi ke planet arakis dipimpin oleh duke leto mereka meregister domain name atreides.yyy.com untuk worker Laravel mengarah pada Leto Atreides . Namun ternyata tidak hanya klan atreides yang berusaha melakukan eksplorasi, Klan harkonen sudah mendaftarkan domain name harkonen.yyy.com untuk worker PHP (0) mengarah pada Vladimir Harkonen
+1. Pada terminal Irulan
+```
+echo 'nameserver 192.168.122.1' > /etc/resolv.conf
+
+# Install necessary packages
+apt-get update
+apt-get install -y bind9
+```
+2. Buka dan edit file `/etc/bind/named.conf.local`
+```
+zone "atreides.it30.com" {
+  type master;
+  file "/etc/bind/atreides/atreides.it30.com";
+};
+
+zone "harkonen.it30.com" {
+  type master;
+  file "/etc/bind/harkonen/harkonen.it30.com";
+};
+```
+3. Kembali ke terminal, buat direktori untuk domain atreides dan harkonen
+```
+mkdir /etc/bind/atreides
+mkdir /etc/bind/harkonen
+```
+4. Copy paste file db.local ke direktori domain atrides dan harkonen, lalu ganti namanya sesuai domain yang kita buat
+```
+cp /etc/bind/db.local /etc/bind/atreides/atreides.it30.com
+cp /etc/bind/db.local /etc/bind/harkonen/harkonen.it30.com
+```
+5. Edit file `/etc/bind/atreides/atreides.it30.com`
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     atreides.it30.com. root.atreides.it30.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      atreides.it30.com.
+@       IN      A       192.248.2.2 ; IP Leto Atreides
+@       IN      AAAA    ::1
+```
+6. Edit file `/etc/bind/harkonen/harkonen.it30.com`
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     harkonen.it30.com. root.harkonen.it30.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      harkonen.it30.com.
+@       IN      A       192.248.1.2 ; IP Vladimir Harkonen
+@       IN      AAAA    ::1
+```
+7. Restart bind9 dengan `service bind9 restart`
+
 ### SOAL 1
 > Lakukan konfigurasi sesuai dengan peta yang sudah diberikan
 #### Network Configuration
