@@ -245,21 +245,72 @@ subnet 192.248.2.0 netmask 255.255.255.0 {
 subnet 192.248.3.0 netmask 255.255.255.0 {}
 subnet 192.248.4.0 netmask 255.255.255.0 {}
 ```
-#### Testing pada client Dmitri
+#### Testing pada client
+- Dmitri
 ![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/1768f375-ef77-4693-b260-6a8e719f7b6f)
-![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/c21a4d69-7dc4-4607-9122-7c685c11a9cb)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/d4ff5845-33ad-46f0-95d2-e0318e41f0e6)
 
-
-#### Testing pada client Paul
+- Paul
 ![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/2b65f0d4-ea88-4dfb-a73e-44b5afd268cc)
-![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/15a92bdc-fc61-4402-a564-a8a0e12088fd)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/537b14d0-da22-49f1-8433-477303200677)
+
 
 
 ### SOAL 4
 > Client mendapatkan DNS dari Princess Irulan dan dapat terhubung dengan internet melalui DNS tersebut
+1. Pada terminal Irulan, edit file `/etc/bind/named.conf.options`
+- Uncomment bagian berikut, dan ganti ke IP Arakis
+```
+forwarders {
+    192.168.122.1;
+};
+```
+- Comment bagian berikut:
+```
+// dnssec-validation auto;
+```
+- Tambahkan line berikut:
+```
+allow-query{any;};
+```
+2. Arahkan koneksi kedua client ke DNS Server Irulan dengan `echo nameserver 192.168.3.3 > /etc/resolv.conf`
+3. Testing client
+- Dmitri
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/657c7a13-4622-4997-8d99-78bca91bf21a)
+
+- Paul
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/1281c79f-7920-4852-aa6d-8b6bc442c798)
+
 
 ### SOAL 5
 > Durasi DHCP server meminjamkan alamat IP kepada Client yang melalui House Harkonen selama 5 menit sedangkan pada client yang melalui House Atreides selama 20 menit. Dengan waktu maksimal dialokasikan untuk peminjaman alamat IP selama 87 menit
+Di sini saya gabungkan konfigurasi file `/etc/default/isc-dhcp-server` pada Mohiam dengan soal nomor 2 menjadi seperti ini:
+```
+# Subnet Switch Harkonen
+subnet 192.248.1.0 netmask 255.255.255.0 {
+    range 192.248.1.14 192.248.1.28;
+    range 192.248.1.49 192.248.1.70;
+    option routers 192.248.1.1;
+    option broadcast-address 192.248.1.255;
+    option domain-name-servers 192.248.3.3;
+    default-lease-time 300;
+    max-lease-time 600;
+}
+
+# Subnet Switch Atreides
+subnet 192.248.2.0 netmask 255.255.255.0 {
+    range 192.248.2.15 192.248.2.25;
+    range 192.248.2.200 192.248.2.210;
+    option routers 192.248.2.1;
+    option broadcast-address 192.248.2.255;
+    option domain-name-servers 192.248.3.3;
+    default-lease-time 1200;
+    max-lease-time 2400;
+}
+
+subnet 192.248.3.0 netmask 255.255.255.0 {}
+subnet 192.248.4.0 netmask 255.255.255.0 {}
+```
 
 ### SOAL 6
 > Vladimir Harkonen memerintahkan setiap worker(harkonen) PHP, untuk melakukan konfigurasi virtual host untuk website berikut dengan menggunakan php 7.3
