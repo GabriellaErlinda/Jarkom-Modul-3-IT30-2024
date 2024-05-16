@@ -198,6 +198,29 @@ auto eth0
 iface eth0 inet dhcp
 ```
 
+Pada bash script Arakis, tuliskan konfigurasi berikut:
+```
+apt-get update
+apt-get install isc-dhcp-server
+apt-get install isc-dhcp-relay -y
+service isc-dhcp-relay start
+
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.248.0.0/16
+
+echo '
+# IP DHCP Server -> IP Mohiam
+SERVERS="192.248.3.2"
+# Interfaces to listen on
+INTERFACES="eth1 eth2 eth3 eth4"
+# Options to pass to the DHCP relay
+OPTIONS=""
+' > /etc/default/isc-dhcp-relay
+
+service isc-dhcp-server start
+```
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/b1f6c139-f95a-4e3a-a7a0-442b9c2782ec)
+Dengan `192.248.3.2` adalah IP Mohiam yang berperan sebagai DHCP server
+
 ### SOAL 2
 > Client yang melalui House Harkonen mendapatkan range IP dari [prefix IP].1.14 - [prefix IP].1.28 dan [prefix IP].1.49 - [prefix IP].1.70
 
