@@ -200,29 +200,60 @@ iface eth0 inet dhcp
 
 ### SOAL 2
 > Client yang melalui House Harkonen mendapatkan range IP dari [prefix IP].1.14 - [prefix IP].1.28 dan [prefix IP].1.49 - [prefix IP].1.70
-1. Pada /etc/default/isc-dhcp-server di Mohiam
+
+1. Setup dhcp server pada Mohiam
 ```
+apt-get update
+apt-get install isc-dhcp-server
+```
+2. Edit file `/etc/default/isc-dhcp-server`
+```
+INTERFACESv4="eth0"
+```
+3. Pada `/etc/default/isc-dhcp-server` di Mohiam
+```
+# Subnet Switch Harkonen
 subnet 192.248.1.0 netmask 255.255.255.0 {
     range 192.248.1.14 192.248.1.28;
     range 192.248.1.49 192.248.1.70;
     option routers 192.248.1.1;
+    option broadcast-address 192.248.1.255;
     option domain-name-servers 192.248.3.3;
-};
+    default-lease-time 300;
+    max-lease-time 600;
+}
 ```
+4. Stop isc-dhcp-server dengan `service isc-dhcp-server stop` lalu restart dengan `service isc-dhcp-server start`
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/f999ced6-1203-43f3-95eb-c8fb68ccb8f7)
+
 
 ### SOAL 3
 > Client yang melalui House Atreides mendapatkan range IP dari [prefix IP].2.15 - [prefix IP].2.25 dan [prefix IP].2 .200 - [prefix IP].2.210
-1. Pada /etc/default/isc-dhcp-server di Mohiam
+1. Pada `/etc/default/isc-dhcp-server` di Mohiam
 ```
+# Subnet Switch Atreides
 subnet 192.248.2.0 netmask 255.255.255.0 {
     range 192.248.2.15 192.248.2.25;
     range 192.248.2.200 192.248.2.210;
     option routers 192.248.2.1;
+    option broadcast-address 192.248.2.255;
     option domain-name-servers 192.248.3.3;
     default-lease-time 1200;
-    max-lease-time 5220;
-};
+    max-lease-time 2400;
+}
+
+subnet 192.248.3.0 netmask 255.255.255.0 {}
+subnet 192.248.4.0 netmask 255.255.255.0 {}
 ```
+#### Testing pada client Dmitri
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/1768f375-ef77-4693-b260-6a8e719f7b6f)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/c21a4d69-7dc4-4607-9122-7c685c11a9cb)
+
+
+#### Testing pada client Paul
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/2b65f0d4-ea88-4dfb-a73e-44b5afd268cc)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/15a92bdc-fc61-4402-a564-a8a0e12088fd)
+
 
 ### SOAL 4
 > Client mendapatkan DNS dari Princess Irulan dan dapat terhubung dengan internet melalui DNS tersebut
