@@ -132,9 +132,29 @@ iface eth0 inet dhcp
 
 ### SOAL 2
 > Client yang melalui House Harkonen mendapatkan range IP dari [prefix IP].1.14 - [prefix IP].1.28 dan [prefix IP].1.49 - [prefix IP].1.70
+1. Pada /etc/default/isc-dhcp-server di Mohiam
+```
+subnet 192.248.1.0 netmask 255.255.255.0 {
+    range 192.248.1.14 192.248.1.28;
+    range 192.248.1.49 192.248.1.70;
+    option routers 192.248.1.1;
+    option domain-name-servers 192.248.3.3;
+};
+```
 
 ### SOAL 3
 > Client yang melalui House Atreides mendapatkan range IP dari [prefix IP].2.15 - [prefix IP].2.25 dan [prefix IP].2 .200 - [prefix IP].2.210
+1. Pada /etc/default/isc-dhcp-server di Mohiam
+```
+subnet 192.248.2.0 netmask 255.255.255.0 {
+    range 192.248.2.15 192.248.2.25;
+    range 192.248.2.200 192.248.2.210;
+    option routers 192.248.2.1;
+    option domain-name-servers 192.248.3.3;
+    default-lease-time 1200;
+    max-lease-time 5220;
+};
+```
 
 ### SOAL 4
 > Client mendapatkan DNS dari Princess Irulan dan dapat terhubung dengan internet melalui DNS tersebut
