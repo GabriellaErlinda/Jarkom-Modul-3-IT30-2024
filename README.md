@@ -387,7 +387,7 @@ service nginx restart
 Lalu jalankan bash script dengan `source ~/.bashrc`
 #### Testing
 Setelah semua bashrc dijalankan pada PHP Worker, lakukan testing pada masing-masing PHP Worker dengan `lynx localhost` maka seharusnya akan muncul laman berikut
-![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/d67322af-529b-4ca4-96d6-90a29986a1e5)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/bf690c59-627a-4e08-8932-6d514580e0c2)
 
 
 ### SOAL 7
@@ -430,6 +430,7 @@ $TTL    604800
 ```
 echo 'nameserver 192.248.3.3' > /etc/resolv.conf
 
+# Setup
 apt-get update
 apt-get install apache2-utils -y
 apt-get install nginx -y
@@ -437,14 +438,15 @@ apt-get install lynx -y
 
 service nginx start
 
+# Copy file nginx default
 cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
 
+# nginx configuration
 echo ' upstream worker {
     server 192.248.1.2;
     server 192.248.1.3;
     server 192.248.1.4;
 }
-
 
 server {
     listen 80;
@@ -464,14 +466,22 @@ server {
 ln -s /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
 rm /etc/nginx/sites-enabled/default
 
+# restart nginx
 service nginx restart
 ```
 #### Testing pada client
 Jalankan perintah berikut pada client Dmitri dan Paul
+```
+ab -n 5000 -c 150 http://www.harkonen.it30.com/
+```
+- Dmitri
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/65ba6ce9-0a93-496f-8f81-8134b0bd327e)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/7e686c31-59b2-4ec7-9f08-ff6f2f5b68e6)
 
-ab -n 1000 -c 100 http://www.harkonen.it30.com/ 
+- Paul
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/8208716a-c3e4-4661-a491-575192b6950e)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/97b801c4-82e2-4902-bb7c-f6087230e347)
 
- 
 
 ### SOAL 8
 > Karena diminta untuk menuliskan peta tercepat menuju spice, buatlah analisis hasil testing dengan 500 request dan 50 request/second masing-masing algoritma Load Balancer dengan ketentuan sebagai berikut:
