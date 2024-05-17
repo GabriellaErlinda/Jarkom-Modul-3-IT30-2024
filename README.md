@@ -475,8 +475,9 @@ Jalankan perintah berikut pada client Dmitri dan Paul
 ab -n 5000 -c 150 http://www.harkonen.it30.com/
 ```
 - Dmitri
-![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/65ba6ce9-0a93-496f-8f81-8134b0bd327e)
-![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/7e686c31-59b2-4ec7-9f08-ff6f2f5b68e6)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/e3d69c11-2537-450c-b1d8-adc1b58cb305)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/04601488-0b41-4298-bcdd-1c8a049a06e0)
+
 
 - Paul
 ![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/8208716a-c3e4-4661-a491-575192b6950e)
