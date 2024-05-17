@@ -426,7 +426,7 @@ $TTL    604800
 @       IN      A       192.248.4.3 ; IP Load Balancer Stilgar
 @       IN      AAAA    ::1' > /etc/bind/harkonen/harkonen.it30.com
 ```
-2. Lalu pada script Irulan, tambahkan konfigurasi pada nginx sebagai berikut:
+2. Lalu pada script Stilgar, tambahkan konfigurasi untuk nginx sebagai berikut:
 ```
 echo 'nameserver 192.248.3.3' > /etc/resolv.conf
 
@@ -469,7 +469,7 @@ service nginx restart
 #### Testing pada client
 Jalankan perintah berikut pada client Dmitri dan Paul
 
-ab -n 1000 -c 100 http://www.atreides.com/ 
+ab -n 1000 -c 100 http://www.harkonen.it30.com/ 
 
  
 
