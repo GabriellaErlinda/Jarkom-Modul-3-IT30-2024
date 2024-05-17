@@ -392,6 +392,86 @@ Setelah semua bashrc dijalankan pada PHP Worker, lakukan testing pada masing-mas
 
 ### SOAL 7
 > Aturlah agar Stilgar dari fremen dapat dapat bekerja sama dengan maksimal, lalu lakukan testing dengan 5000 request dan 150 request/second.
+1. Sebelum melakukan testing request, tambahkan konfigurasi Load Balancer Stilgar di bawah ini pada DNS Server Irulan:
+```
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     atreides.it30.com. root.atreides.it30.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      atreides.it30.com.
+@       IN      A       192.248.4.3 ; IP Load Balancer Stilgar
+@       IN      AAAA    ::1' > /etc/bind/atreides/atreides.it30.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     harkonen.it30.com. root.harkonen.it30.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      harkonen.it30.com.
+@       IN      A       192.248.4.3 ; IP Load Balancer Stilgar
+@       IN      AAAA    ::1' > /etc/bind/harkonen/harkonen.it30.com
+```
+2. Lalu pada script Irulan, tambahkan konfigurasi pada nginx sebagai berikut:
+```
+echo 'nameserver 192.248.3.3' > /etc/resolv.conf
+
+apt-get update
+apt-get install apache2-utils -y
+apt-get install nginx -y
+apt-get install lynx -y
+
+service nginx start
+
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
+
+echo ' upstream worker {
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+
+
+server {
+    listen 80;
+    server_name harkonen.it30.com www.harkonen.it30.com;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        proxy_pass http://worker;
+    }
+} ' > /etc/nginx/sites-available/lb_php
+
+ln -s /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+rm /etc/nginx/sites-enabled/default
+
+service nginx restart
+```
+#### Testing pada client
+Jalankan perintah berikut pada client Dmitri dan Paul
+
+ab -n 1000 -c 100 http://www.atreides.com/ 
+
+ 
 
 ### SOAL 8
 > Karena diminta untuk menuliskan peta tercepat menuju spice, buatlah analisis hasil testing dengan 500 request dan 50 request/second masing-masing algoritma Load Balancer dengan ketentuan sebagai berikut:
