@@ -595,6 +595,22 @@ Grafik Perbandingan Persentase Request yang Dilayani dalam Jangka Waktu Tertentu
 
 ### SOAL 9
 > Dengan menggunakan algoritma Least-Connection, lakukan testing dengan menggunakan 3 worker, 2 worker, dan 1 worker sebanyak 1000 request dengan 10 request/second, kemudian tambahkan grafiknya pada peta.
+Pada Client jalankan command berikut untuk testing
+```
+ab -n 1000 -c 10 http://www.harkonen.it30.com/leastconn/
+```
+- Testing 3 worker
+Di sini semua worker sedang berjalan
+![Screenshot 2024-05-18 151820](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/1f8680ec-2e53-46b5-91bb-91531d1acb86)
+![Screenshot 2024-05-18 151838](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/53cf7996-ed18-4032-9668-e04b2512fba4)
+![Screenshot 2024-05-18 151849](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/6958b4da-0179-4d62-8519-3c8a3aee530c)
+
+- Testing 2 worker
+Di sini nginx salah satu worker dimatikan dengan `service nginx stop`
+
+- Testing 1 worker
+Di sini nginx dua worker dimatikan dengan `service nginx stop`
+
 
 ### SOAL 10
 > Selanjutnya coba tambahkan keamanan dengan konfigurasi autentikasi di LB dengan dengan kombinasi username: “secmart” dan password: “kcksyyy”, dengan yyy merupakan kode kelompok. Terakhir simpan file “htpasswd” nya di /etc/nginx/supersecret/
