@@ -578,7 +578,20 @@ server {
 ![Screenshot 2024-05-18 133019](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/22d6fa35-a57b-44dc-9a54-300afa4c1feb)
 
 - IP Hash
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/5f95bca8-dfde-4972-bc27-2c915fd645bc)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/a2bd3ebd-692f-45f4-906d-38ff82aaa6d0)
+
 - Generic Hash
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/70c75865-9f47-43c7-8dd7-c1bf289a2f07)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/87b78134-8fa0-42f8-bfcf-1b9c0af5da72)
+
+#### Analisis
+Grafik Perbandingan Request Per Second
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/929cd4b3-2771-481d-8713-218d0e4a0db3)
+
+Grafik Perbandingan Persentase Request yang Dilayani dalam Jangka Waktu Tertentu
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/8ab87c31-c9eb-47c4-be41-3844984ffba7)
+
 
 ### SOAL 9
 > Dengan menggunakan algoritma Least-Connection, lakukan testing dengan menggunakan 3 worker, 2 worker, dan 1 worker sebanyak 1000 request dengan 10 request/second, kemudian tambahkan grafiknya pada peta.
