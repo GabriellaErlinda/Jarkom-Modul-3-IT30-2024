@@ -635,4 +635,39 @@ upstream leastconn_worker {
 
 ### SOAL 10
 > Selanjutnya coba tambahkan keamanan dengan konfigurasi autentikasi di LB dengan dengan kombinasi username: “secmart” dan password: “kcksyyy”, dengan yyy merupakan kode kelompok. Terakhir simpan file “htpasswd” nya di /etc/nginx/supersecret/
+1. Pada Stilgar, generate htpasswd
+```
+mkdir /etc/nginx/supersecret
+htpasswd -c /etc/nginx/supersecret/htpasswd secmart
+```
+2. Ubah konfigurasi nginx
+```
+echo '
+upstream worker {
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
 
+server {
+    listen 80;
+    server_name harkonen.it30.com www.harkonen.it30.com;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        proxy_pass http://worker;   
+    }
+    
+    auth_basic "Restricted Content";
+    auth_basic_user_file /etc/nginx/supersecret/htpasswd;
+}' > /etc/nginx/sites-available/lb_php
+```
+3. Restart nginx
+```
+service nginx restart
+```
