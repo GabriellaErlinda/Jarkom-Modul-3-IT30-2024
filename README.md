@@ -491,6 +491,95 @@ ab -n 5000 -c 150 http://www.harkonen.it30.com/
 > c. Grafik request per second untuk masing masing algoritma. 
 > d. Analisis
 
+Edit file `/etc/nginx/sites-available/lb_php` dan tambahkan algoritma load balancer
+```
+upstream worker {
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+
+upstream roundrobin_worker {
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+
+upstream leastconn_worker {
+    least_conn;
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+
+upstream weightedrr_worker {
+    server 192.248.1.2 weight=3;
+    server 192.248.1.3 weight=2;
+    server 192.248.1.4 weight=1;
+}
+
+upstream iphash_worker {
+    ip_hash;
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+
+upstream hash_worker {
+    hash $request_uri consistent;
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+
+server {
+    listen 80;
+    server_name harkonen.it30.com www.harkonen.it30.com;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        proxy_pass http://worker;
+        auth_basic "Restricted Content";
+        auth_basic_user_file /etc/nginx/supersecret/htpasswd;
+    }
+    location /roundrobin {
+        proxy_pass http://roundrobin_worker;
+    }
+    location /leastconn {
+        proxy_pass http://leastconn_worker;
+    }
+    location /weightedrr {
+        proxy_pass http://weightedrr_worker;
+    }
+    location /iphash {
+        proxy_pass http://iphash_worker;
+    }
+    location /hash {
+        proxy_pass http://hash_worker;
+    }
+}
+```
+#### Testing client
+- Round Robin
+![Screenshot 2024-05-18 132657](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/32693765-8a8d-4f2b-9f9c-6ff8c1d364a0)
+![Screenshot 2024-05-18 132731](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/51b41f4e-bce9-4ef7-b649-d3217a56d659)
+
+- Least Connection
+![Screenshot 2024-05-18 132821](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/10a6af63-ed42-4bf0-aa97-d05833ee9a98)
+![Screenshot 2024-05-18 132842](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/70b7b6c4-22cb-4942-9bba-3e4e8b580913)
+
+- Weighted Round Robin
+![Screenshot 2024-05-18 132945](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/d0deb1ee-00cd-40cd-b767-8b5d96a1d9e7)
+![Screenshot 2024-05-18 133019](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/22d6fa35-a57b-44dc-9a54-300afa4c1feb)
+
+- IP Hash
+- Generic Hash
+
 ### SOAL 9
 > Dengan menggunakan algoritma Least-Connection, lakukan testing dengan menggunakan 3 worker, 2 worker, dan 1 worker sebanyak 1000 request dengan 10 request/second, kemudian tambahkan grafiknya pada peta.
 
