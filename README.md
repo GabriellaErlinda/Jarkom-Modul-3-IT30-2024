@@ -606,10 +606,31 @@ Di sini semua worker sedang berjalan
 ![Screenshot 2024-05-18 151849](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/6958b4da-0179-4d62-8519-3c8a3aee530c)
 
 - Testing 2 worker
-Di sini nginx salah satu worker dimatikan dengan `service nginx stop`
+Sebelum testing, pastikan mengcomment IP worker yang ingin dimatikan pada file `/etc/nginx/sites-available/lb_php`
+```
+upstream leastconn_worker {
+    least_conn;
+    # server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+```
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/db809caa-8b5e-4694-80d3-f90ccfb39a6b)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/48037e2d-02d7-41e5-8ddc-e91dbb6261fc)
+
 
 - Testing 1 worker
-Di sini nginx dua worker dimatikan dengan `service nginx stop`
+Sebelum testing, pastikan mengcomment IP worker yang ingin dimatikan pada file `/etc/nginx/sites-available/lb_php`
+```
+upstream leastconn_worker {
+    least_conn;
+    # server 192.248.1.2;
+    # server 192.248.1.3;
+    server 192.248.1.4;
+}
+```
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/a155faa2-f1a0-4c9f-a369-7bd809c7ddc9)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/bca29c12-1265-4c43-b116-a542429f4c10)
 
 
 ### SOAL 10
