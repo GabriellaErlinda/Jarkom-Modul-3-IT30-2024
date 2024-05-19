@@ -671,3 +671,43 @@ server {
 ```
 service nginx restart
 ```
+#### Testing client
+Pada client (di sini saya test pada Dmitri), jalankan command `lynx http://www.harkonen.it30.com/` maka akan muncul warning awalnya, namun nantinya akan diminta memasukkan username dan password seperti di bawah ini
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/5ba2f124-07a2-45b8-bc5f-294c41b977ea)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/609105ab-f867-42a5-b682-a699e62db0cf)
+Setelah itu kita perlu memasukkan password yang telah dibuat pada Irulan tadi yaitu kcksit30, maka selanjutnya lynx akan menuju ke halaman utama
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/9cb292af-8cf1-4c47-bd27-5ae6b616fc54)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/70677eed-c5f2-4595-902f-348b386696b4)
+
+
+### SOAL 11
+> Lalu buat untuk setiap request yang mengandung /dune akan di proxy passing menuju halaman https://www.dunemovie.com.au/. hint: (proxy_pass)
+
+### SOAL 12
+> Selanjutnya LB ini hanya boleh diakses oleh client dengan IP [Prefix IP].1.37, [Prefix IP].1.67, [Prefix IP].2.203, dan [Prefix IP].2.207. hint: (fixed in dulu clientnya)
+
+### SOAL 13
+> Tidak mau kalah dalam perburuan spice, House atreides juga mengatur para pekerja di atreides.yyy.com. Semua data yang diperlukan, diatur pada Chani dan harus dapat diakses oleh Leto, Duncan, dan Jessica
+
+### SOAL 14
+> Leto, Duncan, dan Jessica memiliki atreides Channel sesuai dengan quest guide berikut. Jangan lupa melakukan instalasi PHP8.0 dan Composer
+
+### SOAL 15 - 17
+> atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada grimoire.
+> POST /auth/register (15)
+> POST /auth/login (16)
+> GET /me (17)
+
+### SOAL 18
+> Untuk memastikan ketiganya bekerja sama secara adil untuk mengatur atreides Channel maka implementasikan Proxy Bind pada Stilgar untuk mengaitkan IP dari Leto, Duncan, dan Jessica
+ 
+### SOAL 19
+> Untuk meningkatkan performa dari Worker, coba implementasikan PHP-FPM pada Leto, Duncan, dan Jessica. Untuk testing kinerja naikkan 
+> - pm.max_children
+> - pm.start_servers
+> - pm.min_spare_servers
+> - pm.max_spare_servers
+> sebanyak tiga percobaan dan lakukan testing sebanyak 100 request dengan 10 request/second kemudian berikan hasil analisisnya pada PDF
+
+### SOAL 20
+> Nampaknya hanya menggunakan PHP-FPM tidak cukup untuk meningkatkan performa dari worker maka implementasikan Least-Conn pada Stilgar. Untuk testing kinerja dari worker tersebut dilakukan sebanyak 100 request dengan 10 request/second.
