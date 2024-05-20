@@ -242,8 +242,6 @@ subnet 192.248.1.0 netmask 255.255.255.0 {
     option routers 192.248.1.1;
     option broadcast-address 192.248.1.255;
     option domain-name-servers 192.248.3.3;
-    default-lease-time 300;
-    max-lease-time 600;
 }
 ```
 4. Stop isc-dhcp-server dengan `service isc-dhcp-server stop` lalu restart dengan `service isc-dhcp-server start`
@@ -261,8 +259,6 @@ subnet 192.248.2.0 netmask 255.255.255.0 {
     option routers 192.248.2.1;
     option broadcast-address 192.248.2.255;
     option domain-name-servers 192.248.3.3;
-    default-lease-time 1200;
-    max-lease-time 2400;
 }
 
 subnet 192.248.3.0 netmask 255.255.255.0 {}
@@ -317,7 +313,7 @@ subnet 192.248.1.0 netmask 255.255.255.0 {
     option broadcast-address 192.248.1.255;
     option domain-name-servers 192.248.3.3;
     default-lease-time 300;
-    max-lease-time 600;
+    max-lease-time 5220;
 }
 
 # Subnet Switch Atreides
@@ -328,7 +324,7 @@ subnet 192.248.2.0 netmask 255.255.255.0 {
     option broadcast-address 192.248.2.255;
     option domain-name-servers 192.248.3.3;
     default-lease-time 1200;
-    max-lease-time 2400;
+    max-lease-time 5220;
 }
 
 subnet 192.248.3.0 netmask 255.255.255.0 {}
