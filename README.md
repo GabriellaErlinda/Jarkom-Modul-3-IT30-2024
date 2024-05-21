@@ -678,25 +678,409 @@ Setelah itu kita perlu memasukkan password yang telah dibuat pada Irulan tadi ya
 
 ### SOAL 11
 > Lalu buat untuk setiap request yang mengandung /dune akan di proxy passing menuju halaman https://www.dunemovie.com.au/. hint: (proxy_pass)
+-Pada Worker tambah location baru dan proxy_pass
+```
+    location /dune/ {
+	    proxy_pass https://www.dunemovie.com.au/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_buffering off;
+    }
+```
+```
+#Contoh pada Vladimir
 
+server {
+    listen 80;
+    server_name vladimir;
+
+    root /var/www/harkonen.it30.com;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location /dune/ {
+	    proxy_pass https://www.dunemovie.com.au/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_buffering off;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock; 
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+```
+Ini sukses jika curl -I xym mengembalikan http 301
 ### SOAL 12
 > Selanjutnya LB ini hanya boleh diakses oleh client dengan IP [Prefix IP].1.37, [Prefix IP].1.67, [Prefix IP].2.203, dan [Prefix IP].2.207. hint: (fixed in dulu clientnya)
+-Tambah allow <IP> dan deny all pada akhir setiap lokasi
+```
+        allow 192.248.1.37;
+        allow 192.248.1.67;
+        allow 192.248.1.2;
+        allow 192.248.2.203;
+        allow 192.248.2.207;
+        deny all;
+```
+```
+#Full Kode
+upstream worker {
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
 
+upstream roundrobin_worker {
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+
+upstream leastconn_worker {
+    least_conn;
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+
+upstream weightedrr_worker {
+    server 192.248.1.2 weight=3;
+    server 192.248.1.3 weight=2;
+    server 192.248.1.4 weight=1;
+}
+
+upstream iphash_worker {
+    ip_hash;
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+
+upstream hash_worker {
+    hash $request_uri consistent;
+    server 192.248.1.2;
+    server 192.248.1.3;
+    server 192.248.1.4;
+}
+
+server {
+    listen 80;
+    server_name harkonen.it30.com www.harkonen.it30.com;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        proxy_pass http://worker;
+        auth_basic "Restricted Content";
+        auth_basic_user_file /etc/nginx/supersecret/htpasswd;
+        allow 192.248.1.37;
+        allow 192.248.1.67;
+        allow 192.248.1.2;
+        allow 192.248.2.203;
+        allow 192.248.2.207;
+        deny all;
+    }
+    location /roundrobin {
+        proxy_pass http://roundrobin_worker;
+        allow 192.248.1.37;
+        allow 192.248.1.67;
+        allow 192.248.1.2;
+        allow 192.248.2.203;
+        allow 192.248.2.207;
+        deny all;
+    }
+    location /leastconn {
+        proxy_pass http://leastconn_worker;
+        allow 192.248.1.37;
+        allow 192.248.1.67;
+        allow 192.248.1.2;
+        allow 192.248.2.203;
+        allow 192.248.2.207;
+        deny all;
+    }
+    location /weightedrr {
+        proxy_pass http://weightedrr_worker;
+        allow 192.248.1.37;
+        allow 192.248.1.67;
+        allow 192.248.1.2;
+        allow 192.248.2.203;
+        allow 192.248.2.207;
+        deny all;
+    }
+    location /iphash {
+        proxy_pass http://iphash_worker;
+        allow 192.248.1.37;
+        allow 192.248.1.67;
+        allow 192.248.1.2;
+        allow 192.248.2.203;
+        allow 192.248.2.207;
+        deny all;
+    }
+    location /hash {
+        proxy_pass http://hash_worker;
+        allow 192.248.1.37;
+        allow 192.248.1.67;
+        allow 192.248.1.2;
+        allow 192.248.2.203;
+        allow 192.248.2.207;
+        deny all;
+    }
+}
+```
 ### SOAL 13
 > Tidak mau kalah dalam perburuan spice, House atreides juga mengatur para pekerja di atreides.yyy.com. Semua data yang diperlukan, diatur pada Chani dan harus dapat diakses oleh Leto, Duncan, dan Jessica
 
 ### SOAL 14
 > Leto, Duncan, dan Jessica memiliki atreides Channel sesuai dengan quest guide berikut. Jangan lupa melakukan instalasi PHP8.0 dan Composer
+-Buat script php baru pada /var/www/[website]
+```
+#Register php
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+    <form action="register.php" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Register</button>
+    </form>
+
+    <?php
+    
+    // Fungsi untuk menambahkan data pengguna ke dalam file users2.txt
+    function addUserToFile($username, $createdAt) {
+        // Nama file users2.txt
+        $filename = 'users2.txt';
+
+        // Membuka file untuk menulis (mode append agar data tidak ditimpa)
+        $file = fopen($filename, "a");
+
+        // Menulis data pengguna ke dalam file dalam format yang sesuai
+        fwrite($file, "$username, $createdAt\n");
+
+        // Menutup file
+        fclose($file);
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        // Hash password sebelum menyimpannya
+        //$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Simpan data ke file teks
+        $file = 'users.txt';
+        $current = file_get_contents($file);
+        $current .= "$username,$password\n";
+        file_put_contents($file, $current);
+        
+        // Simpan waktu pembuatan pengguna
+        $createdAt = date('Y-m-d H:i:s');
+
+        // Tambahkan pengguna ke dalam file users2.txt
+        addUserToFile($username, $createdAt);
+
+        echo "<p>Registration successful!</p>";
+    }
+    ?>
+</body>
+</html>
+```
+```
+#Login php
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="login.php" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        // Baca data dari file teks
+        $file = 'users.txt';
+        $users = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        $login_success = false;
+        foreach ($users as $user) {
+            list($stored_username, $stored_password) = explode(',', $user);
+            if ($stored_username === $username && password_verify($password, $stored_password)) {
+                $login_success = true;
+                break;
+            }
+        }
+
+        if ($login_success) {
+            echo "<p>Login successful!</p>";
+        } else {
+            echo "<p>Invalid username or password!</p>";
+        }
+    }
+    ?>
+</body>
+</html>
+```
+```
+#me php
+<?php
+
+function getUsersDataFromFile() {
+    $filename = 'users2.txt';
+
+    $file = fopen($filename, "r");
+
+    $usersData = [];
+
+    while (!feof($file)) {
+        $line = fgets($file);
+        $userData = explode(',', $line);
+        $userDataArray = [
+            "username" => $userData[0],
+            "created_at" => trim($userData[1]) // Menghapus spasi tambahan
+        ];
+        $usersData[] = $userDataArray;
+    }
+
+    fclose($file);
+
+    return $usersData;
+}
+
+$usersData = getUsersDataFromFile();
+
+header('Content-Type: application/json');
+echo json_encode($usersData);
+```
+-Buat file login dan waktu
+```
+touch /var/www/harkonen.it30.com/users.txt
+touch /var/www/harkonen.it30.com/users2.txt
+```
+-Tambahkan lokasi ke worker
+```
+    location /auth/register/ {
+        proxy_pass http://192.248.2.2/register.php;
+    }
+
+    location /auth/login/ {
+        proxy_pass http://192.248.2.2/login.php;
+    }
+
+    location /me/ {
+        proxy_pass http://192.248.2.2/me.php;
+    }
+```
+```
+#Full Kode dari Leto
+server {
+    listen 80;
+    server_name leto;
+
+    root /var/www/harkonen.it30.com;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location /auth/register/ {
+        proxy_pass http://192.248.2.2/register.php;
+    }
+
+    location /auth/login/ {
+        proxy_pass http://192.248.2.2/login.php;
+    }
+
+    location /me/ {
+        proxy_pass http://192.248.2.2/me.php;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock; 
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+```
 ### SOAL 15 - 17
 > atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada grimoire.
 > POST /auth/register (15)
 > POST /auth/login (16)
 > GET /me (17)
+-Tes
+```
+ab -n 100 -c 10 -p register.json -T 'application/json' http://<worker>/auth/register
 
+ab -n 100 -c 10 -p login.json -T 'application/json' http://<worker>/auth/login
+
+ab -n 100 -c 10 http://<worker>/me
+```
 ### SOAL 18
 > Untuk memastikan ketiganya bekerja sama secara adil untuk mengatur atreides Channel maka implementasikan Proxy Bind pada Stilgar untuk mengaitkan IP dari Leto, Duncan, dan Jessica
- 
+-Tambah upstream dan lokasi baru
+```
+upstream bind {
+    server 192.248.2.2;
+    server 192.248.2.3;
+    server 192.248.2.4;
+}
+
+#Dalam Server
+    location /bind/leto {
+        proxy_pass http://bind/leto
+        proxy_bind 192.248.2.2
+    }
+    location /bind/duncan {
+        proxy_pass http://bind/duncan
+        proxy_bind 192.248.2.3
+    }
+    location /bind/jessica {
+        proxy_pass http://bind/jessica
+        proxy_bind 192.248.2.4
+    }
+```
 ### SOAL 19
 > Untuk meningkatkan performa dari Worker, coba implementasikan PHP-FPM pada Leto, Duncan, dan Jessica. Untuk testing kinerja naikkan 
 > - pm.max_children
@@ -704,6 +1088,32 @@ Setelah itu kita perlu memasukkan password yang telah dibuat pada Irulan tadi ya
 > - pm.min_spare_servers
 > - pm.max_spare_servers
 > sebanyak tiga percobaan dan lakukan testing sebanyak 100 request dengan 10 request/second kemudian berikan hasil analisisnya pada PDF
+-Jika belum instal php7.3-fpm
+```
+apt-get install php7.3-fpm -y
+```
+-Ganti sesuai tes(Template)
+```
+echo 'user = www-data
+group = www-data
+listen = /run/php/php7.3-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+pm = dynamic
+pm.max_children = 30
+pm.start_servers = 10
+pm.min_spare_servers = 10
+pm.max_spare_servers = 15' > /etc/php/7.3/fpm/pool.d/www.conf
+```
 
 ### SOAL 20
 > Nampaknya hanya menggunakan PHP-FPM tidak cukup untuk meningkatkan performa dari worker maka implementasikan Least-Conn pada Stilgar. Untuk testing kinerja dari worker tersebut dilakukan sebanyak 100 request dengan 10 request/second.
+-Tambahkan least_conn pada upstream bind
+```
+upstream bind {
+    least_conn;
+    server 192.248.2.2;
+    server 192.248.2.3;
+    server 192.248.2.4;
+}
+```
