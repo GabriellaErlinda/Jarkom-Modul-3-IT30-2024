@@ -78,6 +78,15 @@ $TTL    604800
 ```
 7. Restart bind9 dengan `service bind9 restart`
 
+#### Testing Client
+Testing dilakukan menggunakan `ping -4 [domain]` di sini -4 berguna untuk menspesifikkan interface v4 yang kita gunakan
+- Dmitri
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/df28d66d-5a60-48a4-bd1e-f37c34c51b80)
+
+- Paul
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/18e8a3a4-ad4c-4f82-9b6c-9925369bfac2)
+
+
 ### SOAL 1
 > Lakukan konfigurasi sesuai dengan peta yang sudah diberikan
 #### Network Configuration
