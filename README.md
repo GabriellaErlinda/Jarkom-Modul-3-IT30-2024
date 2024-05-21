@@ -266,10 +266,14 @@ subnet 192.248.4.0 netmask 255.255.255.0 {}
 ```
 #### Testing pada client
 - Dmitri
+  
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/d03c26fc-3757-41a4-bc7d-103faad98f30)
 ![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/1768f375-ef77-4693-b260-6a8e719f7b6f)
 ![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/d4ff5845-33ad-46f0-95d2-e0318e41f0e6)
 
 - Paul
+
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/288d4fcc-10b2-41fd-993b-419a6d14744e)
 ![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/2b65f0d4-ea88-4dfb-a73e-44b5afd268cc)
 ![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/537b14d0-da22-49f1-8433-477303200677)
 
@@ -627,6 +631,11 @@ upstream leastconn_worker {
 ```
 ![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/a155faa2-f1a0-4c9f-a369-7bd809c7ddc9)
 ![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/bca29c12-1265-4c43-b116-a542429f4c10)
+
+Grafik Analisis:
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/9ab650a9-e6af-42ee-9ffe-5120070e045e)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/assets/128443451/7c2867e1-fa5a-448b-b524-87dbc197a8c6)
+
 
 
 ### SOAL 10
