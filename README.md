@@ -742,6 +742,7 @@ server {
     }
 }
 ```
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20202424.png)
 Ini sukses jika curl -I xym mengembalikan http 301
 ### SOAL 12
 > Selanjutnya LB ini hanya boleh diakses oleh client dengan IP [Prefix IP].1.37, [Prefix IP].1.67, [Prefix IP].2.203, dan [Prefix IP].2.207. hint: (fixed in dulu clientnya)
@@ -863,6 +864,8 @@ server {
     }
 }
 ```
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20203023.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20203033.png)
 ### SOAL 13
 > Tidak mau kalah dalam perburuan spice, House atreides juga mengatur para pekerja di atreides.yyy.com. Semua data yang diperlukan, diatur pada Chani dan harus dapat diakses oleh Leto, Duncan, dan Jessica
 
@@ -1079,6 +1082,15 @@ ab -n 100 -c 10 -p login.json -T 'application/json' http://<worker>/auth/login
 
 ab -n 100 -c 10 http://<worker>/me
 ```
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20203304.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20203326.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20203400.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20024852.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20024904.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20024918.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20024934.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20024956.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20025008.png)
 ### SOAL 18
 > Untuk memastikan ketiganya bekerja sama secara adil untuk mengatur atreides Channel maka implementasikan Proxy Bind pada Stilgar untuk mengaitkan IP dari Leto, Duncan, dan Jessica
 -Tambah upstream dan lokasi baru
@@ -1127,7 +1139,25 @@ pm.start_servers = 10
 pm.min_spare_servers = 10
 pm.max_spare_servers = 15' > /etc/php/7.3/fpm/pool.d/www.conf
 ```
-
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20203456.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20203541.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20203604.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20203637.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-21%20203705.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20024521.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20024611.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20080714.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20080734.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20080750.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20080801.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20080859.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20100927.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20105437.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20110104.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20110204.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20110437.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20110755.png)
+![image](https://github.com/GabriellaErlinda/Jarkom-Modul-3-IT30-2024/blob/patch-1/gambar/Screenshot%202024-05-22%20110937.png)
 ### SOAL 20
 > Nampaknya hanya menggunakan PHP-FPM tidak cukup untuk meningkatkan performa dari worker maka implementasikan Least-Conn pada Stilgar. Untuk testing kinerja dari worker tersebut dilakukan sebanyak 100 request dengan 10 request/second.
 -Tambahkan least_conn pada upstream bind
