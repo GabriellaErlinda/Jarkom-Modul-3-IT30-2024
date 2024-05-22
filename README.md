@@ -747,6 +747,7 @@ Ini sukses jika curl -I xym mengembalikan http 301
 ### SOAL 12
 > Selanjutnya LB ini hanya boleh diakses oleh client dengan IP [Prefix IP].1.37, [Prefix IP].1.67, [Prefix IP].2.203, dan [Prefix IP].2.207. hint: (fixed in dulu clientnya)
 -Tambah allow <IP> dan deny all pada akhir setiap lokasi
+-192.248.1.2 itu untuk testing
 ```
         allow 192.248.1.37;
         allow 192.248.1.67;
